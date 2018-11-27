@@ -8,7 +8,8 @@ import {
 } from 'react-native'
 import App from './App'
 import {name as appName} from './app.json'
-import RNSpokestack from 'react-native-spokestack'
+import Spokestack from 'react-native-spokestack'
+import GoogleKey from './google-key.json'
 
 export default class Undertaker extends Component {
   constructor (props) {
@@ -64,9 +65,9 @@ class RNSpokestackButton extends Component {
     super(props)
     this.activtyTimer = null
     this.activityTimeout = 5000
-    RNSpokestack.onSpeechStarted = this.onSpeechStart.bind(this)
-    RNSpokestack.onSpeechEnded = this.onSpeechEnd.bind(this)
-    RNSpokestack.onSpeechRecognized = this.onSpeechRecognized.bind(this)
+    Spokestack.onSpeechStarted = this.onSpeechStart.bind(this)
+    Spokestack.onSpeechEnded = this.onSpeechEnd.bind(this)
+    Spokestack.onSpeechRecognized = this.onSpeechRecognized.bind(this)
   }
 
   componentDidMount () {
@@ -75,7 +76,7 @@ class RNSpokestackButton extends Component {
   onStart () {
     this.activtyTimer = setTimeout(() => this.onActivityTimeout(), this.activityTimeout)
 
-    RNSpokestack.initialize({
+    Spokestack.initialize({
       'input': 'com.pylon.spokestack.android.MicrophoneInput',
       'stages': [
         'com.pylon.spokestack.libfvad.VADTrigger',
@@ -83,7 +84,7 @@ class RNSpokestackButton extends Component {
       ],
       'properties': {
         // 'vad-mode': 'aggressive'
-        'google-credentials': ''
+        'google-credentials': JSON.stringify(GoogleKey),
         'locale': 'en-US',
         'sample-rate': 16000,
         'frame-width': 20,
@@ -93,11 +94,11 @@ class RNSpokestackButton extends Component {
       }
     })
 
-    RNSpokestack.start()
+    Spokestack.start()
   }
 
   onStop () {
-    RNSpokestack.stop()
+    Spokestack.stop()
     console.log('1998 told RNSpokestack to stop')
   }
 

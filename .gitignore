@@ -63,3 +63,6 @@ bartender.app.dSYM.zip
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+# Other
+google-key.json
