@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import {name as appName} from './app.json'
 import Spokestack from 'react-native-spokestack'
-// import GoogleCredentials from './google-key.json'
+import GoogleCredentials from './google-key.json'
 import GoogleAPIKey from './google-api-key.json'
 
 export default class Mankind extends Component {
@@ -75,7 +75,7 @@ class RNSpokestackButton extends Component {
   }
 
   onStart () {
-    // console.log("GoogleAPIKey " + JSON.parse(GoogleAPIKey))
+    console.log('GoogleAPIKey ' + GoogleAPIKey.google_api_key)
     this.activtyTimer = setTimeout(() => this.onActivityTimeout(), this.activityTimeout)
 
     Spokestack.initialize({
@@ -85,10 +85,8 @@ class RNSpokestackButton extends Component {
         'com.pylon.spokestack.google.GoogleSpeechRecognizer'
       ],
       'properties': {
-        // 'vad-mode': 'aggressive'
-        // 'google-credentials': JSON.stringify(GoogleCredentials),
-        'google-api-key': JSON.parse(GoogleAPIKey).google_api_key,
-        // JSON.parse(GoogleAPIKey).google_api_key,
+        'google-credentials': JSON.stringify(GoogleCredentials),
+        'google-api-key': GoogleAPIKey.google_api_key,
         'locale': 'en-US',
         'sample-rate': 16000,
         'frame-width': 20,
