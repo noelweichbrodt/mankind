@@ -56,5 +56,11 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Allow Mankind to listen for your commands.</string>
+  <key>NSLocationUsageDescription</key>
+  <string>Allow Mankind to see your location for personalization.</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Allow Mankind to see your location for personalization.</string>
 </dict>
 </plist>

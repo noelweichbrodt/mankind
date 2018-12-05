@@ -6,12 +6,12 @@ import {
   Text,
   View
 } from 'react-native'
-import App from './App'
 import {name as appName} from './app.json'
 import Spokestack from 'react-native-spokestack'
-import GoogleKey from './google-key.json'
+// import GoogleCredentials from './google-key.json'
+import GoogleAPIKey from './google-api-key.json'
 
-export default class Undertaker extends Component {
+export default class Mankind extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -64,16 +64,18 @@ class RNSpokestackButton extends Component {
   constructor (props) {
     super(props)
     this.activtyTimer = null
-    this.activityTimeout = 5000
+    this.activityTimeout = 10000
     Spokestack.onSpeechStarted = this.onSpeechStart.bind(this)
     Spokestack.onSpeechEnded = this.onSpeechEnd.bind(this)
     Spokestack.onSpeechRecognized = this.onSpeechRecognized.bind(this)
+    Spokestack.onError = this.onSpeechError.bind(this)
   }
 
   componentDidMount () {
   }
 
   onStart () {
+    // console.log("GoogleAPIKey " + JSON.parse(GoogleAPIKey))
     this.activtyTimer = setTimeout(() => this.onActivityTimeout(), this.activityTimeout)
 
     Spokestack.initialize({
@@ -84,7 +86,9 @@ class RNSpokestackButton extends Component {
       ],
       'properties': {
         // 'vad-mode': 'aggressive'
-        'google-credentials': JSON.stringify(GoogleKey),
+        // 'google-credentials': JSON.stringify(GoogleCredentials),
+        'google-api-key': JSON.parse(GoogleAPIKey).google_api_key,
+        // JSON.parse(GoogleAPIKey).google_api_key,
         'locale': 'en-US',
         'sample-rate': 16000,
         'frame-width': 20,
@@ -99,7 +103,7 @@ class RNSpokestackButton extends Component {
 
   onStop () {
     Spokestack.stop()
-    console.log('1998 told RNSpokestack to stop')
+    console.log('Mankind told RNSpokestack to stop')
   }
 
   onStatusChange (s) {
@@ -111,6 +115,7 @@ class RNSpokestackButton extends Component {
   }
 
   onActivityTimeout () {
+    console.log('Mankind activity timeout')
     this.onStop()
   }
 
@@ -125,8 +130,11 @@ class RNSpokestackButton extends Component {
   }
   onSpeechEnd (e) {
     this.onStatusChange('ended')
-    this.onResultsChange([])
     console.log('spokestack speech ended')
+  }
+  onSpeechError (e) {
+    this.onStatusChange('error' + e.error)
+    console.log('error: ' + e.errort)
   }
 
   render () {
@@ -160,4 +168,4 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent(appName, () => App)
+AppRegistry.registerComponent(appName, () => Mankind)
